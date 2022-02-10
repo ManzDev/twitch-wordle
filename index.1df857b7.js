@@ -162,6 +162,22 @@ import m from"https://cdn.skypack.dev/canvas-confetti";const b=function(){const 
       h1 {
         text-transform: uppercase;
         border-bottom: 1px solid #555;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-weight: lighter;
+        font-size: 1rem;
+        text-align: center;
+        margin: 0;
+      }
+
+      h2 a {
+        color: #f4b400;
+      }
+
+      h2 a:hover {
+        color: #a22;
       }
 
       .words {
@@ -172,7 +188,10 @@ import m from"https://cdn.skypack.dev/canvas-confetti";const b=function(){const 
     `}startGame(){const a=Math.floor(Math.random()*l.length);this.secretWord=l[a],this.ending=!1}connectedCallback(){this.render(),this.currentWord=this.shadowRoot.querySelector("wordle-word[current]"),this.keyboard=this.shadowRoot.querySelector("wordle-keyboard"),document.addEventListener("keyup",a=>this.pushLetter(a.key)),document.addEventListener("keyboard",a=>this.pushLetter(a.detail))}pushLetter(a){if(this.ending)return;const e=a.toLowerCase(),i=e==="enter",o=e==="backspace";i&&this.checkRestrictions(),o&&this.currentWord.removeLetter();const r=v.includes(e),t=this.currentWord.isEmpty();r&&t&&this.currentWord.addLetter(e)}checkRestrictions(){if(this.currentWord.isEmpty()){alert("La palabra debe tener 5 letras");return}const e=this.currentWord.toString();if(!l.includes(e)){alert("No existe esta palabra en el diccionario");return}if(!this.resolve()){this.nextWord();return}this.win()}resolve(){const a=this.currentWord.toString(),e=a.split(""),i=this.secretWord.split("");return e.forEach((o,r)=>{o===this.secretWord[r]&&(this.currentWord.setExactLetter(r),this.keyboard.setLetter(o,"exact"),i[r]=" ")}),e.forEach((o,r)=>{if(i.includes(o)){this.currentWord.setExistLetter(r),this.keyboard.setLetter(o,"exist");const d=i.findIndex(p=>p===o);i[d]=" "}else this.keyboard.setLetter(o,"used")}),this.currentWord.classList.add("sended"),this.currentWord.setRAELink(a),this.currentWord.isSolved()}nextWord(){this.currentWord=this.shadowRoot.querySelector("wordle-word[current]");const a=this.currentWord.nextElementSibling;if(a){a.setAttribute("current",""),this.currentWord.removeAttribute("current"),this.currentWord=a;return}this.lose()}win(){f.play(),m(),this.ending=!0}lose(){h.play(),this.ending=!0}render(){this.shadowRoot.innerHTML=`
     <style>${u.styles}</style>
     <div class="container">
-      <h1>Wordle</h1>
+      <header>
+        <h1>Wordle</h1>
+        <h2>Por <a href="https://manz.dev/">ManzDev</a></h2>
+      </header>
       <div class="words">
         <wordle-word current></wordle-word>
         <wordle-word></wordle-word>
