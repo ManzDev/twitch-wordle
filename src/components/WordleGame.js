@@ -1,4 +1,4 @@
-import confetti from "https://cdn.skypack.dev/canvas-confetti";
+import confetti from "canvas-confetti";
 import WORDS from "../assets/words.json";
 import "./WordleWord.js";
 import "./WordleKeyboard.js";
