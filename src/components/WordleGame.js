@@ -41,6 +41,22 @@ class WordleGame extends HTMLElement {
       h1 {
         text-transform: uppercase;
         border-bottom: 1px solid #555;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-weight: lighter;
+        font-size: 1rem;
+        text-align: center;
+        margin: 0;
+      }
+
+      h2 a {
+        color: #f4b400;
+      }
+
+      h2 a:hover {
+        color: #a22;
       }
 
       .words {
@@ -123,12 +139,15 @@ class WordleGame extends HTMLElement {
 
     possibleLetters.forEach((letter, index) => {
       const existLetter = secretLetters.includes(letter);
+      const isExactLetter = secretLetters[index] === " ";
 
       if (existLetter) {
         this.currentWord.setExistLetter(index);
         this.keyboard.setLetter(letter, "exist");
         const pos = secretLetters.findIndex(l => l === letter);
-        secretLetters[pos] = " ";
+        if (!isExactLetter) {
+          secretLetters[pos] = " ";
+        }
       } else {
         this.keyboard.setLetter(letter, "used");
       }
@@ -168,7 +187,10 @@ class WordleGame extends HTMLElement {
     this.shadowRoot.innerHTML = /* html */`
     <style>${WordleGame.styles}</style>
     <div class="container">
-      <h1>Wordle</h1>
+      <header>
+        <h1>Wordle</h1>
+        <h2>Por <a href="https://manz.dev/">ManzDev</a></h2>
+      </header>
       <div class="words">
         <wordle-word current></wordle-word>
         <wordle-word></wordle-word>
