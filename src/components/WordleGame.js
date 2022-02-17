@@ -69,7 +69,7 @@ class WordleGame extends HTMLElement {
 
   startGame() {
     const randomIndex = Math.floor(Math.random() * WORDS.length);
-    this.secretWord = WORDS[randomIndex];
+    this.secretWord = WORDS[randomIndex].toLowerCase();
     // console.log(this.secretWord);
     this.ending = false;
   }
@@ -139,15 +139,12 @@ class WordleGame extends HTMLElement {
 
     possibleLetters.forEach((letter, index) => {
       const existLetter = secretLetters.includes(letter);
-      const isExactLetter = secretLetters[index] === " ";
 
       if (existLetter) {
         this.currentWord.setExistLetter(index);
         this.keyboard.setLetter(letter, "exist");
         const pos = secretLetters.findIndex(l => l === letter);
-        if (!isExactLetter) {
-          secretLetters[pos] = " ";
-        }
+        secretLetters[pos] = " ";
       } else {
         this.keyboard.setLetter(letter, "used");
       }
