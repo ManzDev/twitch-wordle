@@ -2,6 +2,7 @@ import confetti from "canvas-confetti";
 import WORDS from "../assets/words.json";
 import "./WordleWord.js";
 import "./WordleKeyboard.js";
+import "./WordleSummary.js";
 
 const LOSE_SOUND = new Audio("sounds/lose.mp3");
 const WIN_SOUND = new Audio("sounds/win.mp3");
@@ -172,12 +173,23 @@ class WordleGame extends HTMLElement {
   win() {
     WIN_SOUND.play();
     confetti();
+    this.startSummary(true);
     this.ending = true;
   }
 
   lose() {
     LOSE_SOUND.play();
+    this.startSummary(false);
     this.ending = true;
+  }
+
+  startSummary(winner) {
+    const container = this.shadowRoot.querySelector(".container");
+    const summary = document.createElement("wordle-summary");
+    summary.setSecretWord(this.secretWord);
+    summary.setWinner(winner);
+    summary.setStats(this.shadowRoot.querySelectorAll("wordle-word"));
+    container.insertAdjacentElement("beforeend", summary);
   }
 
   render() {
