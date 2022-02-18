@@ -160,12 +160,12 @@ class WordleWord extends HTMLElement {
   getStats() {
     const isSended = this.classList.contains("sended");
     const letters = Array.from(this.shadowRoot.querySelectorAll(".letter"));
-    const translate = letter =>
-      letter.classList.contains("exact")
-        ? "🟩"
-        : letter.classList.contains("exist")
-          ? "🟨"
-          : "⬛";
+    const translate = letter => {
+      const isExact = letter.classList.contains("exact");
+      const isExist = letter.classList.contains("exist");
+
+      return isExact ? "🟩" : isExist ? "🟨" : "⬛";
+    };
 
     return isSended ? letters.map(letter => translate(letter)).join("") : "";
   }

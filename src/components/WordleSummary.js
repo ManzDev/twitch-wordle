@@ -154,7 +154,7 @@ class WordleSummary extends HTMLElement {
       <div class="text-to-select">
         <h3>WORDLE MANZDEV ${this.winner ? ":)" : ":("}</h3>
         <p class="link"><a href="https://wordle.manz.dev/">wordle.manz.dev</a></p>
-        <p>Tu partida:</p>
+        <p>Tu partida (${this.secretWord}):</p>
 
         ${this.getStats()}
       </div>
