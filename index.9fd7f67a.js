@@ -86,7 +86,7 @@ import{c as b}from"./vendor.9f165994.js";const g=function(){const a=document.cre
         0% { transform: scaleY(0); }
         100% { transform: scaleY(1); }
       }
-    `}toString(){return this.word.replace(/ /g,"")}isSolved(){return Array.from(this.shadowRoot.querySelectorAll(".letter")).every(o=>o.classList.contains("exact"))}connectedCallback(){this.render()}isEmpty(){return this.word.includes(" ")}addLetter(a){const o=this.toString().length,r=this.toString()+a;this.word=r.padEnd(n," "),this.render(),this.shadowRoot.querySelectorAll(".letter")[o].classList.add("pop")}removeLetter(){const a=this.toString().slice(0,-1);this.word=a.padEnd(n," "),this.render()}setExactLetter(a){this.shadowRoot.querySelectorAll(".letter")[a].classList.add("exact")}setExistLetter(a){this.shadowRoot.querySelectorAll(".letter")[a].classList.add("exist")}setRAELink(a){const o=document.createElement("a");o.href=`https://dle.rae.es/${a}`,o.classList.add("rae"),o.textContent="\u{1F4D5}",this.shadowRoot.appendChild(o),setTimeout(()=>o.classList.add("visible"),1e3)}getTemplateLetters(){return this.word.split("").map(a=>`<div class="letter">${a}</div>`).join("")}getStats(){const a=this.classList.contains("sended"),o=Array.from(this.shadowRoot.querySelectorAll(".letter")),r=e=>e.classList.contains("exact")?"\u{1F7E9}":e.classList.contains("exist")?"\u{1F7E8}":"\u2B1B";return a?o.map(e=>r(e)).join(""):""}render(){this.shadowRoot.innerHTML=`
+    `}toString(){return this.word.replace(/ /g,"")}isSolved(){return Array.from(this.shadowRoot.querySelectorAll(".letter")).every(o=>o.classList.contains("exact"))}connectedCallback(){this.render()}isEmpty(){return this.word.includes(" ")}addLetter(a){const o=this.toString().length,r=this.toString()+a;this.word=r.padEnd(n," "),this.render(),this.shadowRoot.querySelectorAll(".letter")[o].classList.add("pop")}removeLetter(){const a=this.toString().slice(0,-1);this.word=a.padEnd(n," "),this.render()}setExactLetter(a){this.shadowRoot.querySelectorAll(".letter")[a].classList.add("exact")}setExistLetter(a){this.shadowRoot.querySelectorAll(".letter")[a].classList.add("exist")}setRAELink(a){const o=document.createElement("a");o.href=`https://dle.rae.es/${a}`,o.classList.add("rae"),o.textContent="\u{1F4D5}",this.shadowRoot.appendChild(o),setTimeout(()=>o.classList.add("visible"),1e3)}getTemplateLetters(){return this.word.split("").map(a=>`<div class="letter">${a}</div>`).join("")}getStats(){const a=this.classList.contains("sended"),o=Array.from(this.shadowRoot.querySelectorAll(".letter")),r=e=>{const i=e.classList.contains("exact"),t=e.classList.contains("exist");return i?"\u{1F7E9}":t?"\u{1F7E8}":"\u2B1B"};return a?o.map(e=>r(e)).join(""):""}render(){this.shadowRoot.innerHTML=`
     <style>${c.styles}</style>
     <div class="container">
       ${this.getTemplateLetters()}
@@ -232,7 +232,7 @@ import{c as b}from"./vendor.9f165994.js";const g=function(){const a=document.cre
       <div class="text-to-select">
         <h3>WORDLE MANZDEV ${this.winner?":)":":("}</h3>
         <p class="link"><a href="https://wordle.manz.dev/">wordle.manz.dev</a></p>
-        <p>Tu partida:</p>
+        <p>Tu partida (${this.secretWord}):</p>
 
         ${this.getStats()}
       </div>
