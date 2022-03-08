@@ -126,26 +126,31 @@ class WordleGame extends HTMLElement {
 
   resolve() {
     const word = this.currentWord.toString();
-    const possibleLetters = word.split("");
     const secretLetters = this.secretWord.split("");
+    const possibleLetters = word.split("");
+
+    const counter = {};
+    secretLetters.forEach(letter => {
+      counter[letter] = (counter[letter] ?? 0) + 1;
+    });
 
     possibleLetters.forEach((letter, index) => {
       const exactLetter = letter === this.secretWord[index];
       if (exactLetter) {
         this.currentWord.setExactLetter(index);
         this.keyboard.setLetter(letter, "exact");
-        secretLetters[index] = " ";
+        counter[letter]--;
       }
     });
 
     possibleLetters.forEach((letter, index) => {
-      const existLetter = secretLetters.includes(letter);
+      const isExact = this.secretWord[index] === word[index];
+      const timesLetter = counter[letter] ?? 0;
 
-      if (existLetter) {
+      if (timesLetter > 0 && !isExact) {
+        counter[letter]--;
         this.currentWord.setExistLetter(index);
         this.keyboard.setLetter(letter, "exist");
-        const pos = secretLetters.findIndex(l => l === letter);
-        secretLetters[pos] = " ";
       } else {
         this.keyboard.setLetter(letter, "used");
       }
