@@ -81,6 +81,7 @@ class WordleGame extends HTMLElement {
     this.keyboard = this.shadowRoot.querySelector("wordle-keyboard");
     document.addEventListener("keyup", (ev) => this.pushLetter(ev.key));
     document.addEventListener("keyboard", (ev) => this.pushLetter(ev.detail));
+    this.addEventListener("KEYBOARD_SET_LETTER", (ev) => this.keyboard.setLetter(ev.detail.letter, ev.detail.className));
   }
 
   pushLetter(letter) {
@@ -115,50 +116,13 @@ class WordleGame extends HTMLElement {
       return;
     }
 
-    const solved = this.resolve();
+    const solved = this.currentWord.resolve(this.secretWord);
     if (!solved) {
       this.nextWord();
       return;
     }
 
     this.win();
-  }
-
-  resolve() {
-    const word = this.currentWord.toString();
-    const secretLetters = this.secretWord.split("");
-    const possibleLetters = word.split("");
-
-    const counter = {};
-    secretLetters.forEach(letter => {
-      counter[letter] = (counter[letter] ?? 0) + 1;
-    });
-
-    possibleLetters.forEach((letter, index) => {
-      const exactLetter = letter === this.secretWord[index];
-      if (exactLetter) {
-        this.currentWord.setExactLetter(index);
-        this.keyboard.setLetter(letter, "exact");
-        counter[letter]--;
-      }
-    });
-
-    possibleLetters.forEach((letter, index) => {
-      const isExact = this.secretWord[index] === word[index];
-      const timesLetter = counter[letter] ?? 0;
-
-      if (timesLetter > 0 && !isExact) {
-        counter[letter]--;
-        this.currentWord.setExistLetter(index);
-        this.keyboard.setLetter(letter, "exist");
-      } else {
-        this.keyboard.setLetter(letter, "used");
-      }
-    });
-
-    this.currentWord.classList.add("sended");
-    this.currentWord.setRAELink(word);
-    return this.currentWord.isSolved();
   }
 
   nextWord() {

@@ -157,6 +157,48 @@ class WordleWord extends HTMLElement {
       .join("");
   }
 
+  resolve(secretWord) {
+    const word = this.toString();
+    const secretLetters = secretWord.split("");
+    const possibleLetters = word.split("");
+
+    const counter = {};
+    secretLetters.forEach(letter => {
+      counter[letter] = (counter[letter] ?? 0) + 1;
+    });
+
+    possibleLetters.forEach((letter, index) => {
+      const exactLetter = letter === secretWord[index];
+      if (exactLetter) {
+        this.setExactLetter(index);
+        this.keyboardSetLetter(letter, "exact");
+        counter[letter]--;
+      }
+    });
+
+    possibleLetters.forEach((letter, index) => {
+      const isExact = secretWord[index] === word[index];
+      const timesLetter = counter[letter] ?? 0;
+
+      if (timesLetter > 0 && !isExact) {
+        counter[letter]--;
+        this.setExistLetter(index);
+        this.keyboardSetLetter(letter, "exist");
+      } else {
+        this.keyboardSetLetter(letter, "used");
+      }
+    });
+
+    this.classList.add("sended");
+    this.setRAELink(word);
+    return this.isSolved();
+  }
+
+  keyboardSetLetter(letter, className) {
+    const event = new CustomEvent("KEYBOARD_SET_LETTER", { composed: true, bubbles: true, detail: { letter, className } });
+    this.dispatchEvent(event);
+  }
+
   getStats() {
     const isSended = this.classList.contains("sended");
     const letters = Array.from(this.shadowRoot.querySelectorAll(".letter"));
